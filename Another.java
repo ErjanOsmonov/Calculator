@@ -1,5 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,8 +6,8 @@ import java.util.Stack;
 
 public class Another {
     private static List<String> history = new ArrayList<>();
-    private static File myObj = new File("input.txt");
-    // private static Scanner scanner = new Scanner(myObj);
+    // private static File myObj = new File("input.txt");
+    private static Scanner scanner = new Scanner(System.in);
 
 
     public static void main(String[] args) {
@@ -27,30 +25,22 @@ public class Another {
         }
         
         System.out.println("Thank you for using the Calculator!");
-        // scanner.close();
+        scanner.close();
     }
 
-    private static void performCalculation() {
-        try {
-            Scanner scanner = new Scanner(myObj);
-            while(scanner.hasNextLine()) {
-                System.out.print("Please enter your arithmetic expression: ");
-                String expression = scanner.nextLine().trim();
-                
-                if (expression.isEmpty()) {
-                    throw new IllegalArgumentException("empty string");
-                }
-                
-                // Store in history
-                history.add(expression);
-                
-                double result = evaluateExpression(expression);
-                System.out.println("Result: " + result);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occured.");
-            e.printStackTrace();
+    private static void performCalculation() {         
+        System.out.print("Please enter your arithmetic expression: ");
+        String expression = scanner.nextLine().trim();
+        
+        if (expression.isEmpty()) {
+            throw new IllegalArgumentException("empty string");
         }
+        
+        // Store in history
+        history.add(expression);
+        
+        double result = evaluateExpression(expression);
+        System.out.println("Result: " + result);
     }
 
     private static double evaluateExpression(String expression) {
@@ -167,7 +157,6 @@ public class Another {
         if (op == '*' || op == '/') return 2;
         return 0;
     }
-    // 
 
     private static double applyOperation(char op, double b, double a) {
         switch (op) {
@@ -183,26 +172,19 @@ public class Another {
 
     private static boolean continuePrompt() {
         while (true) {
-            try {
-                Scanner scanner = new Scanner(myObj);
-                System.out.print("Do you want to continue? (y/n): ");
-                String response = scanner.nextLine().trim().toLowerCase();
-                if (response.equals("y")) {
-                    System.out.print("View history? (y/n): ");
-                    String historyResponse = scanner.nextLine().trim().toLowerCase();
-                    if (historyResponse.equals("y")) {
-                        showHistory();
-                    }
-                    return true;
-                } else if (response.equals("n")) {
-                    return false;
+            System.out.print("Do you want to continue? (y/n): ");
+            String response = scanner.nextLine().trim().toLowerCase();
+            if (response.equals("y")) {
+                System.out.print("View history? (y/n): ");
+                String historyResponse = scanner.nextLine().trim().toLowerCase();
+                if (historyResponse.equals("y")) {
+                    showHistory();
                 }
-                System.out.println("Please enter 'y' or 'n'");
-                
-            } catch (FileNotFoundException e) {
-                System.out.println("An error occured.");
-                e.printStackTrace();
+                return true;
+            } else if (response.equals("n")) {
+                return false;
             }
+            System.out.println("Please enter 'y' or 'n'");            
         }
     }
 
